@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Video Snake Game",
+  "version": "1.0",
+  "description": "Jouez à Snake tout en regardant vos vidéos.",
+  
+ 
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png"
+    }
+  },
+  
+  
+  "icons": {
+    "16": "icons/icon16.png"
+  }
+}
