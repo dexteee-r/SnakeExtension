@@ -4,10 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const scoreElement = document.getElementById('score');
-
+    
     // Taille de chaque case du jeu
     const gridSize = 20;
     let score = 0;
+
+    // touche p pour pause
+    let isPaused = false;
 
     // Le serpent : un tableau de segments (objets {x, y})
     // Commence au milieu
@@ -32,10 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gère les contrôles au clavier
     function handleKeydown(e) {
+        // fonction metter en pause le jeu
+        const keyPressed = e.key;  // 1️⃣ D'abord définir keyPressed
+        
+    
+        // 2️⃣ Gérer la pause avec toggle
+        if (keyPressed === 'p' || keyPressed === 'P') {
+            isPaused = !isPaused;
+            console.log(isPaused ? 'Jeu en pause' : 'Jeu repris');  //vérifie si ka touche fonctionne 
+            return;
+        }
+
+
         if (changingDirection) return;
         changingDirection = true;
 
-        const keyPressed = e.key;
 
         if (keyPressed === 'ArrowUp' && direction !== 'down') {
             direction = 'up';
@@ -53,6 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction principale du jeu (la boucle de jeu)
     function main() {
+        if (isPaused){
+            drawPauseScreen();
+            return; // Arrete l'execution si en pause 
+        }
+
+
         // Permet de changer de direction pour le prochain "tick"
         changingDirection = false; 
 
@@ -110,24 +130,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dessine le jeu
     function draw() {
         // Nettoie le canvas (fond)
-        ctx.fillStyle = '#2c3e50'; // Couleur de fond
+        ctx.fillStyle = '#8bb82a8e'; // Couleur de fond + si tu baisse l'opicité effet de traînée
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Dessine la pomme
-        ctx.fillStyle = '#e74c3c'; // Rouge
+        ctx.fillStyle = '#d21818ff'; // Rouge
         ctx.fillRect(food.x, food.y, gridSize, gridSize);
 
         // Dessine le serpent
-        ctx.fillStyle = '#2ecc71'; // Vert
+        ctx.fillStyle = '#10512bff'; // Vert
         snake.forEach(segment => {
             ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
         });
+    }
+
+    // Dessine l'écran de pause
+    function drawPauseScreen() {
+        // Assombrir l'écran
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Texte "PAUSE"
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '30px "Press Start 2P"';
+        ctx.textAlign = 'center';
+        ctx.fillText('PAUSE', canvas.width / 2, canvas.height / 2 - 20);
+
+        // Instruction
+        ctx.font = '12px "Press Start 2P"';
+        ctx.fillText('Appuie sur P', canvas.width / 2, canvas.height / 2 + 20);
     }
 
     // Initialisation
     createFood();
     document.addEventListener('keydown', handleKeydown);
     
-    // Lance la boucle de jeu (100ms = 10 images par seconde)
+    // Lance la boucle de jeu 
     setInterval(main, 100);
 });

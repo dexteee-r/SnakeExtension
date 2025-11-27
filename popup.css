@@ -1,18 +1,19 @@
 body {
     margin: 5px; /* Un peu d'espace */
     background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
     text-align: center;
 }
 
+
 canvas {
-    background-color: #2c3e50; /* Fond sombre pour le jeu */
+    background-color: #83b021; /* Fond sombre pour le jeu */
     display: block;
     margin-top: 5px;
     border: 2px solid #34495e;
 }
 
 #score {
+    font-family: "Press Start 2P", system-ui;
     font-size: 16px;
     font-weight: bold;
     color: #333;
